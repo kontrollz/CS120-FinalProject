@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS login;
+
+CREATE TABLE login (
+    loginID INT         AUTO_INCREMENT PRIMARY KEY,
+    user    VARCHAR(25) NOT NULL UNIQUE,
+    pass    VARCHAR(25) NOT NULL
+);
