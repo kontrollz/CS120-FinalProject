@@ -1,0 +1,25 @@
+{
+  "name": "cs120-finalproject",
+  "version": "1.0.0",
+  "description": "Weather forecast app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kontrollz/CS120-FinalProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kontrollz/CS120-FinalProject/issues"
+  },
+  "homepage": "https://github.com/kontrollz/CS120-FinalProject#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  }
+}
