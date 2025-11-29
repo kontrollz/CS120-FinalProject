@@ -1,1 +1,41 @@
-<!-- create account and it gets entered to database -->
+<!-- normal login page, will initalize a session upon
+     successful login -->
+
+<!DOCTYPE html>
+<html>
+<head>
+     <title>Sign Up</title>
+</head>
+<body>
+   <div id="header"></div>
+     
+
+    <form id="signup-form">
+
+        <div class="signup-field">
+            <label for="first-name">First Name:</label>
+            <input type="text" name="firstName">
+        </div>
+        <div class="signup-field">
+            <label for="last-name">Last Name:</label>
+            <input type="text" name="lastName">
+        </div>
+        <div class="signup-field">
+            <label for="email">Email:</label>
+            <input type="email" name="email">
+        </div>
+
+        <div class="signup-field">
+            <label for="password">Password:</label>
+            <input type="password" name="password">
+        </div>
+
+        <button type="submit" id="signup-submit">Submit</button>
+    </form>
+
+    <div id="footer"></div>
+
+    <!-- link js files -->
+    <script src="loadPartials.js"></script>
+</body>
+</html>
