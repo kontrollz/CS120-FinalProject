@@ -4,6 +4,7 @@
   "description": "Weather forecast app",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/kontrollz/CS120-FinalProject#readme",
   "dependencies": {
+    "better-sqlite3": "^12.5.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0"
   }
