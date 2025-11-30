@@ -6,6 +6,7 @@ require('dotenv').config();
 
 // import packages
 const express = require('express');
+const db = requre('./database/connection.js');
 
 // create express app
 const app = express();
