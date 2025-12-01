@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>API Call</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<style type="text/css">
+    body, html {font-family:"Lato", "sans-serif"}
+    </style>
+</head>
+<body>
+    <h1>Starview</h1>
+    <nav>
+        <a href="login">Log in</a>
+        <a href="signup">Create an account</a>
+    </nav>
+
+    <div id = "text_t"></div>
+<script>
+
+        async function get_data() {
+        let x = 113.17;
+        let y = 23.09;
+        let response = await fetch("http://www.7timer.info/bin/api.pl?lon=" + x + "&lat=" + y + "&product=astro&output=json");
+        if (response.ok) {
+            let json = await response.json();
+            let text_t = JSON.stringify(json);
+            console.log(text_t);
+            let objj = JSON.parse(text_t);
+            // put whatever we are going to do with it here
+        } else {
+            alert("HTTP-Error: " + response.status);
+        }
+    }
+
+    get_data()
+
+
+
+
+
+</script>
+</body>
+</html>
+
