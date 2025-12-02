@@ -8,6 +8,16 @@ require('dotenv').config();
 const express = require('express');
 const db = require('./src/database/connection.js');
 
+// test that db connection works
+(async () => {
+  try {
+    const [rows] = await db.query('SELECT 1+1 AS result');
+    console.log('DB OK:', rows);
+  } catch (err) {
+    console.error('DB ERROR:', err.message);
+  }
+})();
+
 // create express app
 const app = express();
 
