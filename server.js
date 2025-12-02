@@ -7,15 +7,26 @@ require('dotenv').config();
 // import packages
 const express = require('express');
 const db = require('./src/database/connection.js');
+const userModel = require('./src/database/userModel.js');
 
-// test that db connection works
+// TEST that db connection works
 (async () => {
-  try {
-    const [rows] = await db.query('SELECT 1+1 AS result');
-    console.log('DB OK:', rows);
-  } catch (err) {
-    console.error('DB ERROR:', err.message);
-  }
+    try {
+        const [rows] = await db.query('SELECT 1+1 AS result');
+        console.log('DB OK:', rows);
+    } catch (err) {
+        console.error('DB ERROR:', err.message);
+    }
+})();
+
+// TEST addUser and getAllUsers
+(async () => {
+    try {
+        const [rows] = await 
+        console.log('addUser OK:', rows);
+    } catch (err) {
+        console.error('DB ERROR:', err.message);
+    }
 })();
 
 // create express app
