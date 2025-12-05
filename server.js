@@ -22,14 +22,26 @@ console.log("server.js loaded requires successfully");
     }
 })();
 
-// TEST addUser and getAllUsers
+// TEST addUser, removeUser and getAllUsers
 (async () => {
+    try {
+        await userModel.removeUser("testuser"); // ignore if not present
+    } catch (_) {}
     try {
         const result = await userModel.addUser("testuser", "testpass", "test@example.com");
         console.log("addUser OK:", result);
-        
+    } catch (err) {
+        console.error("DB ERROR:", err.message);
+    }
+    try {
         const users = await userModel.getAllUsers();
         console.log("All users:", users);
+    } catch (err) {
+        console.error("DB ERROR:", err.message);
+    }
+    try {
+        const remove = await userModel.removeUser("testuser");
+        console.log("removeUser OK:", remove);
     } catch (err) {
         console.error("DB ERROR:", err.message);
     }

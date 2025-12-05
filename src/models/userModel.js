@@ -12,20 +12,28 @@
 // connect to the database
 const db = require('../database/connection.js');
 
-// get all users
-async function getAllUsers() {
-  const [rows] = await db.query("SELECT * FROM users");
-  return rows;
-}
+const functions = {
+    // get all users
+    async getAllUsers() {
+      const [rows] = await db.query("SELECT * FROM users");
+      return rows;
+    },
+    
+    // add user
+    async addUser(username, password, email) {
+        const sql = "INSERT INTO users  (user, pass, email) \
+                     VALUES             (?,    ?,    ?)";
+        return db.query(sql, [username, password, email]);
+    },
+    
+    // remove user
+    async removeUser(username) {
+        const sql = "DELETE FROM    users \
+                     WHERE          users.user = ?";
+        return db.query(sql, [username]);
+    }
+};
 
-// add user
-async function addUser(username, password, email) {
-    const sql = "INSERT INTO user (user, pass, email) VALUES (?, ?, ?)";
-    return db.query(sql, [username, password, email]);
-}
 
 // EXPORT functions for use elsewhere
-module.exports = {
-    getAllUsers,
-    addUser
-};
+module.exports = functions;
