@@ -13,8 +13,30 @@ signupForm.addEventListener('submit', async (e) => {
 
     // convert form data to JS object
     const formData = new FormData(signupForm);
-    const data = Object.fromEntries(formData);
+    const credentials = Object.fromEntries(formData);
+    try {
+        // send form data to backend
+        const response = await fetch('/signup', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            }, 
+            body: JSON.stringify(credentials)
+        });
 
-    // send form data to backend
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(data.message);
+        } else {
+            alert("Signup failed: " + data.message);
+        }
+        
+        // reset form
+        signupForm.reset();
 
+    } catch (e) {
+        console.log(`Error: ${e}`);
+        alert("An error occurred, please try again");
+    }
 });

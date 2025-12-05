@@ -7,7 +7,8 @@ require('dotenv').config();
 // import packages
 const express = require('express');
 const db = require('./src/database/connection.js');
-const pagesRouter = require('./src/routes/pageRoutes.js')
+const authRouter = require('./src/routes/authRoutes.js')
+const path = require('path');
 
 // create express app
 const app = express();
@@ -19,10 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 // serve static files from 'public' folder. Without this,
 // browser doesn't know where to find the linked CSS and JS 
 // files inside our html
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// use pages router so we don't have .html in the URL
-app.use('/', pagesRouter);
+// use auth routes
+app.use('/', authRouter);
 
 // start server
 const PORT = process.env.PORT || 3000;
