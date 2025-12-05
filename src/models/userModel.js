@@ -10,7 +10,7 @@
 // );
 
 // connect to the database
-const db = require('./connection');
+const db = require('../database/connection.js');
 
 // get all users
 async function getAllUsers() {
@@ -20,9 +20,8 @@ async function getAllUsers() {
 
 // add user
 async function addUser(username, password, email) {
-    let str = "INSERT INTO user (user, pass, email) \
-               VALUES (" + username + ", " + password + ", " + email + ");"
-    db.query(str)
+    const sql = "INSERT INTO user (user, pass, email) VALUES (?, ?, ?)";
+    return db.query(sql, [username, password, email]);
 }
 
 // EXPORT functions for use elsewhere

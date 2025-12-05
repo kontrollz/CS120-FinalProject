@@ -7,7 +7,10 @@ require('dotenv').config();
 // import packages
 const express = require('express');
 const db = require('./src/database/connection.js');
-const userModel = require('./src/database/userModel.js');
+const userModel = require('./src/models/userModel.js');
+
+
+console.log("server.js loaded requires successfully");
 
 // TEST that db connection works
 (async () => {
@@ -22,10 +25,13 @@ const userModel = require('./src/database/userModel.js');
 // TEST addUser and getAllUsers
 (async () => {
     try {
-        const [rows] = await 
-        console.log('addUser OK:', rows);
+        const result = await userModel.addUser("testuser", "testpass", "test@example.com");
+        console.log("addUser OK:", result);
+        
+        const users = await userModel.getAllUsers();
+        console.log("All users:", users);
     } catch (err) {
-        console.error('DB ERROR:', err.message);
+        console.error("DB ERROR:", err.message);
     }
 })();
 
