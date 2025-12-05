@@ -1,11 +1,13 @@
 // SQL for reference
-// CREATE TABLE user (
+// CREATE TABLE users (
 //     id          INT             AUTO_INCREMENT PRIMARY KEY,
 //     user        VARCHAR(25)     NOT NULL UNIQUE,
 //     pass        VARCHAR(255)    NOT NULL,
 //     update_at   TIMESTAMP       DEFAULT     CURRENT_TIMESTAMP
 //                                 ON UPDATE   CURRENT_TIMESTAMP,
 //     email       VARCHAR(254)    NOT NULL,
+//     confirmed   BOOLEAN         NOT NULL 
+//                                 DEFAULT FALSE,
 //     created_at  TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 // );
 
@@ -29,7 +31,15 @@ const functions = {
     // remove user
     async removeUser(username) {
         const sql = "DELETE FROM    users \
-                     WHERE          users.user = ?";
+                     WHERE          user = ?";
+        return db.query(sql, [username]);
+    },
+
+    // updates user to reflect a 'confirmed' email
+    async setConfirmed(username) {
+        const sql = "UPDATE users               \
+                     SET    confirmed = TRUE    \
+                     WHERE  user      = ?       ";
         return db.query(sql, [username]);
     }
 };
