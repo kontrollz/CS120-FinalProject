@@ -7,6 +7,7 @@
     function Module (title) {
         this.title = title;
         this.data = [];
+        this.label = [];
         console.log("Module " + this.title + " initiated with value " + this.data);
     }
 </script>
@@ -35,21 +36,22 @@
 </head>
 <body>
     <h1 id = "title">Title and header bar goes here</h1>
+    <div id = "dateloc"></div>
     <div id = "boxes"></div>
 <script>
 
         async function get_data() {
-        let x = 113.17;
-        let y = 23.09;
-        let response = await fetch("http://www.7timer.info/bin/api.pl?lon=" + x + "&lat=" + y + "&product=astro&output=json");
+        let lon = 113.17;
+        let lat = 23.09;
+        let response = await fetch("http://www.7timer.info/bin/api.pl?lon=" + lon + "&lat=" + lat + "&product=astro&output=json");
         if (response.ok) {
             let json = await response.json();
             let text_t = JSON.stringify(json);
             // console.log(text_t);
             let objj = JSON.parse(text_t);
 
-            
-            document.getElementById('dateloc').innerHTML += ("<h2>Time: " + objj.init + ", Location: (" + x + ", " + y + ")");
+            document.getElementById('dateloc').innerHTML += ("<h2>Projection Time: " + objj.init + ", Location: (" + lon + ", " + lat + ")");
+
            
             let modules_arr = [new Module("timepoint"), new Module("cloudcover"), new Module("seeing"), new Module("transparency"), new Module("lifted_index"), new Module("rh2m"), new Module("wind10m"), new Module("temp2m"), new Module("prec_type")];
             console.log(modules_arr);
@@ -66,10 +68,161 @@
                 modules_arr[6].data.push(x.wind10m);
                 modules_arr[7].data.push(x.temp2m);
                 modules_arr[8].data.push(x.prec_type);
+                modules_arr[0].label.push(x.timepoint);
+                modules_arr[1].label.push(x.cloudcover);
+                modules_arr[2].label.push(x.seeing);
+                modules_arr[3].label.push(x.transparency);
+                modules_arr[4].label.push(x.lifted_index);
+                modules_arr[5].label.push(x.rh2m);
+                modules_arr[6].label.push(x.wind10m);
+                modules_arr[7].label.push(x.temp2m);
+                modules_arr[8].label.push(x.prec_type);
             });
 
+            // Editing coded data
+
+            // time
+            // note this script accounts for changes in the day during the forecast but NOT for changes in the month (augh)
+
+            modules_arr[0].label.forEach ( (x, index) => {
+                var1 = ((x) + Number(objj.init));
+                if (String(var1).slice(8,10) != "24"){
+                modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(var1).slice(6, 8) + " " + String(var1).slice(8,10) + ":00");
+                } else {
+                modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(Number(String(var1).slice(6, 8))+1) + " 00:00");
+                } 
+            });
+
+            /// Cloud cover
+            modules_arr[1].label.forEach ( (x, index) => {
+                if (x == 1) {
+                    modules_arr[1].label[index] = "0%-6%";
+                } else if (x == 2) {
+                    modules_arr[1].label[index] = "6%-19%";
+                } else if (x == 3) {
+                    modules_arr[1].label[index] = "19%-31%";
+                } else if (x == 4) {
+                    modules_arr[1].label[index] = "31%-44%";
+                } else if (x == 5) {
+                    modules_arr[1].label[index] = "44%-56%";
+                } else if (x == 6) {
+                    modules_arr[1].label[index] = "56%-69%";
+                } else if (x == 7) {
+                    modules_arr[1].label[index] = "69%-81%";
+                } else if (x == 8) {
+                    modules_arr[1].label[index] = "81%-94%";
+                } else if (x == 9) {
+                    modules_arr[1].label[index] = "94%-100%";
+                }
+
+            });
+
+
+        /// Lifted index
+
+            modules_arr[4].label.forEach ( (x, index) => {
+
+                if (x == -10) {
+                    modules_arr[4].label[index] = "Below -7";
+                } else if (x == -6) {
+                    modules_arr[4].label[index] = "-7 to -5";
+                } else if (x == -4) {
+                    modules_arr[4].label[index] = "-5 to -3";
+                } else if (x == -1) {
+                    modules_arr[4].label[index] = "-3 to 0";
+                } else if (x == 2) {
+                    modules_arr[4].label[index] = "0 to 4";
+                } else if (x == 6) {
+                    modules_arr[4].label[index] = "4 to 8";
+                } else if (x == 10) {
+                    modules_arr[4].label[index] = "8 to 11";
+                } else if (x == 15) {
+                    modules_arr[4].label[index] = "Over 11";
+                } 
+            });
+
+            // 2m rel hum
+
+            modules_arr[5].label.forEach ( (x, index) => {
+                if (x == -4) {
+                    modules_arr[5].label[index] = "0%-5%";
+                } else if (x == -3) {
+                    modules_arr[5].label[index] = "5%-10%";
+                } else if (x == -2) {
+                    modules_arr[5].label[index] = "10%-15%";
+                } else if (x == -1) {
+                    modules_arr[5].label[index] = "15%-20%";
+                } else if (x == 0) {
+                    modules_arr[5].label[index] = "20%-25%";
+                } else if (x == 1) {
+                    modules_arr[5].label[index] = "25%-30%";
+                } else if (x == 2) {
+                    modules_arr[5].label[index] = "30%-35%";
+                } else if (x == 3) {
+                    modules_arr[5].label[index] = "35%-40%";
+                } else if (x == 4) {
+                    modules_arr[5].label[index] = "40%=45%";
+                } else if (x == 5) {
+                    modules_arr[5].label[index] = "45%-50%";
+                } else if (x == 6) {
+                    modules_arr[5].label[index] = "50%-55%";
+                } else if (x == 7) {
+                    modules_arr[5].label[index] = "55%-60%";
+                } else if (x == 8) {
+                    modules_arr[5].label[index] = "60%-65%";
+                } else if (x == 9) {
+                    modules_arr[5].label[index] = "65%-70%";
+                } else if (x == 10) {
+                    modules_arr[5].label[index] = "70%-75%";
+                } else if (x == 11) {
+                    modules_arr[5].label[index] = "75%-80%";
+                } else if (x == 12) {
+                    modules_arr[5].label[index] = "80%-85%";
+                } else if (x == 13) {
+                    modules_arr[5].label[index] = "85%-90%";
+                } else if (x == 14) {
+                    modules_arr[5].label[index] = "90%-95%";
+                } else if (x == 15) {
+                    modules_arr[5].label[index] = "95%-99%";
+                } else if (x == 16) {
+                    modules_arr[5].label[index] = "100%";
+                }
+
+
+            });
+
+            // 10m wind speed
+
+        modules_arr[6].label.forEach ( (x, index) => {
+                if (x.speed == 1) {
+                    modules_arr[6].label[index].speed = "Below 0.3m/s (calm)";
+                } else if (x.speed == 2) {
+                    modules_arr[6].label[index].speed = "0.3-3.4m/s (light)";
+                } else if (x.speed == 3) {
+                    modules_arr[6].label[index].speed = "3.4-8.0m/s (moderate)";
+                } else if (x.speed == 4) {
+                    modules_arr[6].label[index].speed = "8.0-10.8m/s (fresh)";
+                } else if (x.speed == 5) {
+                    modules_arr[6].label[index].speed = "10.8-17.2m/s (strong)";
+                } else if (x.speed == 6) {
+                    modules_arr[6].label[index].speed = "17.2-24.5m/s (gale)";
+                } else if (x.speed == 7) {
+                    modules_arr[6].label[index].speed = "24.5-32.6m/s (storm)";
+                } else if (x.speed == 8) {
+                    modules_arr[6].label[index].speed = "Over 32.6m/s (hurricane)";
+                }
+
+            full_label = "Direction: " + x.direction + "<br /> Speed: " + x.speed;
+            modules_arr[6].label[index] = full_label;
+
+            });
+
+
+
+            // Displaying in boxes
+
             modules_arr.forEach ( (x) => {
-            document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.data[0] + "</h2></div>")
+            document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.label[0] + "</h2></div>")
             });
 
 
