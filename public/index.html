@@ -5,17 +5,41 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <style type="text/css">
     body, html {font-family:"Lato", "sans-serif"}
-    </style>
+    
+    #logout-btn {
+        display: 'none';
+    }
+</style>
 </head>
 <body>
     <h1>Starview</h1>
-    <nav>
+    <nav id="login-nav-bar">
         <a href="/login">Log in</a>
         <a href="/signup">Create an account</a>
     </nav>
+    <button id="logout-btn">Logout</button>
 
     <div id = "text_t"></div>
 <script>
+
+        async function hideNav() {
+            const navBar = document.getElementById('login-nav-bar');
+            const logoutBtn = document.getElementById('logout-btn');
+            try {
+                const response = await fetch('/session');
+                const data = await response.json();
+
+                if (data.loggedIn) {
+                    navBar.style.display = 'none';
+                    logoutBtn.style.display = 'block';
+                }
+
+            } catch (e) {
+                console.log(e);
+                alert('there is an error' + e); 
+            }
+
+        }
 
         async function get_data() {
         let x = 113.17;
@@ -31,14 +55,15 @@
             alert("HTTP-Error: " + response.status);
         }
     }
-
-    get_data()
+    hideNav();
+    //get_data();
 
 
 
 
 
 </script>
+<script src="js/auth.js"></script>
 </body>
 </html>
 

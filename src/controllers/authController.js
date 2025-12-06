@@ -1,8 +1,7 @@
 const path = require('path');
-const express = require('express');
-const session = require('express-session');
 const nodemailer = require('nodemailer');
 const userModel = require('../models/userModel.js');
+const bcrypt = require('bcrypt');
 
 // signup page - get, display page
 const showSignup = (req, res) => {
@@ -75,9 +74,42 @@ const showLogin = (req, res) => {
 };
 
 // login page - post, log user in
-const userLogin = (req, res) => {
-    // do stuff for login
-    // use functions from userModel.js
+const userLogin = async (req, res) => {
+    const {username, password} = req.body;
+
+    const user = userModel.findUserByUsername(username);
+
+    // return failure message if username not found
+    if (!user) {
+        return res.json({
+            success: false, 
+            message: "username not found"
+        });
+    }
+
+    // check if pass is valid
+    const validPass = await bcrypt.compare(password, user.password_hash);
+
+    // failure message if incorect password
+    if (!validPass) {
+        return res.json({
+            success: false, 
+            message: "incorrect password"
+        });
+    }
+
+    // create session
+    req.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email
+    }
+
+    return res.json({
+        success: true,
+        message: "login successful!"
+    })
+
 };
 
 // TODO: need to come back and make sure token has
@@ -117,11 +149,44 @@ const confirmEmail = (req, res) => {
     }
 };
 
+const checkSessionStatus = (req, res) => {
+    if (req.session.user) {
+        return res.json({
+            loggedIn: true,
+            user: req.session.user
+        });
+    } 
+
+    return res.json({
+        loggedIn: false
+    });
+};
+
+const logout = (req, res) => {
+    req.session.destroy((error) => {
+        if (error) {
+            console.error("error destroying session: ", error);
+            return res.json({
+                success: false,
+                error: error
+            });
+        };
+
+        res.clearCookie('connect.sid');
+        return res.json({
+            success: true,
+            message: "logged out successfully!"        
+        });
+    });
+}
+
 module.exports = {
     showSignup,
     userSignup,
     showLogin,
     userLogin,
     sendConfirmationEmail, 
-    confirmEmail
+    confirmEmail,
+    checkSessionStatus,
+    logout
 }

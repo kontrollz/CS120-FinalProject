@@ -70,6 +70,13 @@ const findUserByToken = (token) => {
             `).get(token);
 };
 
+// search db for a token match
+const findUserByUsername= (username) => {
+    return db.prepare(`
+                SELECT * FROM Users WHERE username = ? 
+            `).get(username);
+};
+
 // update user's 'verified' field to 1 (true) and set
 // verification_token to null
 const verifyUserInDB = (userId) => {
@@ -88,5 +95,6 @@ module.exports = {
     addUser,
     isEmailUnique,
     isUsernameUnique,
-    verifyUser
+    verifyUser,
+    findUserByUsername
 };
