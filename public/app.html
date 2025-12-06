@@ -34,6 +34,9 @@
     #title{
         font-size: 3vw;
     }
+    #subtitle{
+        font-size: 2vw;
+    }
     </style>
 </head>
 <body>
@@ -52,7 +55,7 @@
             // console.log(text_t);
             let objj = JSON.parse(text_t);
 
-            document.getElementById('dateloc').innerHTML += ("<h2>Projection Time: " + objj.init + ", Location: (" + lon + ", " + lat + ")");
+            document.getElementById('dateloc').innerHTML += ("<h2 id='subtitle'>Projection Time: " + objj.init + ", Location: (" + lon + ", " + lat + ")");
 
            
             let modules_arr = [new Module("timepoint"), new Module("cloudcover"), new Module("seeing"), new Module("transparency"), new Module("lifted_index"), new Module("rh2m"), new Module("wind10m"), new Module("temp2m"), new Module("prec_type")];
