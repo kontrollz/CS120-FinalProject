@@ -37,10 +37,38 @@ const functions = {
 
     // updates user to reflect a 'confirmed' email
     async setConfirmed(username) {
-        const sql = "UPDATE users               \
-                     SET    confirmed = TRUE    \
-                     WHERE  user      = ?       ";
+        const sql = "UPDATE users                           \
+                     SET    confirmed = TRUE,               \
+                            update_at = CURRENT_TIMESTAMP   \
+                     WHERE  user      = ?                   ";
         return db.query(sql, [username]);
+    },
+
+    // updates username
+    async updateUsername(oldUsername, newUsername) {
+        const sql = "UPDATE users                           \
+                     SET    user      = ?,                  \
+                            update_at = CURRENT_TIMESTAMP   \
+                     WHERE  user      = ?                   ";
+        return db.query(sql, [newUsername, oldUsername]);
+    },
+
+    // updates password
+    async updatePassword(username, password) {
+        const sql = "UPDATE users                           \
+                     SET    pass      = ?,                  \
+                            update_at = CURRENT_TIMESTAMP   \
+                     WHERE  user      = ?                   ";
+        return db.query(sql, [password, username]);
+    },
+
+    // updates email
+    async updatePassword(username, email) {
+        const sql = "UPDATE users                           \
+                     SET    email     = ?,                  \
+                            update_at = CURRENT_TIMESTAMP   \
+                     WHERE  user      = ?                   ";
+        return db.query(sql, [email, username]);
     }
 };
 
