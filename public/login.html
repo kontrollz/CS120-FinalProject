@@ -1,18 +1,51 @@
 <!-- create account and it gets entered to database -->
 <!DOCTYPE html>
 <html>
-<head>
-     <title>Login</title>
-</head>
-<body>
-   <div id="header"></div>
-     
+  <head>
+    <title>Login - StarView</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div id="header"></div>
 
+      <main>
+        <div class="card">
+          <p class="page-intro">
+            Log in to view astronomy-focused weather for your saved locations.
+          </p>
+          <h1>Login</h1>
 
+          <form id="login-form">
+            <div class="form-row">
+              <label for="login-user">Username</label>
+              <input type="text" id="login-user" name="user" required />
+            </div>
 
+            <div class="form-row">
+              <label for="login-pass">Password</label>
+              <input type="password" id="login-pass" name="password" required />
+            </div>
 
-   <div id="footer"></div>
+            <button type="submit">Sign In</button>
+          </form>
 
-   <script src="loadPartials.js"></script>
-</body>
+          <p id="login-message" class="message"></p>
+
+          <p class="small-text">
+            <a href="forgot_password.html">Forgot your password?</a>
+          </p>
+
+          <p class="small-text">
+            Don’t have an account yet?
+            <a href="signup.html">Create one here.</a>
+          </p>
+        </div>
+      </main>
+      <div id="footer"></div>
+    </div>
+
+    <script src="js/loadPartials.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
 </html>

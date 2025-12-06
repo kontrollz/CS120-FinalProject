@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Account – StarView</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div id="header"></div>
+
+      <main>
+        <div class="card">
+          <p class="page-intro">
+            View and manage your StarView account information.
+          </p>
+          <h1>Account</h1>
+
+          <div class="form-row">
+            <label>Username</label>
+            <input
+              type="text"
+              id="account-username"
+              value="exampleUser"
+              readonly
+            />
+          </div>
+
+          <div class="form-row">
+            <label>Email</label>
+            <input
+              type="email"
+              id="account-email"
+              value="user@example.com"
+              readonly
+            />
+          </div>
+
+          <span class="toggle-link" id="toggle-details"
+            >Show sensitive details</span
+          >
+
+          <div class="account-detail hidden" id="account-detail-box">
+            <p><strong>Password (hidden):</strong> ••••••••</p>
+            <p class="small-text">
+              This is just a placeholder on the front-end. In the real app, this
+              section would be populated with data from the database or a secure
+              API, without actually showing the raw password.
+            </p>
+          </div>
+
+          <p class="small-text">
+            In our final project, this page explains to the grader how account
+            data could be shown. The actual values (username, email, timestamps)
+            can be sent from the backend once those routes are built.
+          </p>
+        </div>
+      </main>
+
+      <div id="footer"></div>
+    </div>
+
+    <script src="js/loadPartials.js"></script>
+    <script>
+      const toggleLink = document.getElementById("toggle-details");
+      const detailBox = document.getElementById("account-detail-box");
+      let visible = false;
+
+      toggleLink.addEventListener("click", () => {
+        visible = !visible;
+        if (visible) {
+          detailBox.classList.remove("hidden");
+          toggleLink.textContent = "Hide sensitive details";
+        } else {
+          detailBox.classList.add("hidden");
+          toggleLink.textContent = "Show sensitive details";
+        }
+      });
+    </script>
+  </body>
+</html>

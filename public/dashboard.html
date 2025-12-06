@@ -1,0 +1,105 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard – StarView</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div id="header"></div>
+
+      <main>
+        <div class="card">
+          <p class="page-intro">
+            Check astronomy-friendly weather for your observing spots.
+          </p>
+          <h1>Observation Dashboard</h1>
+
+          <div class="dashboard-grid">
+            <section>
+              <h2>Location</h2>
+              <form id="astro-form">
+                <div class="form-row">
+                  <label for="lat">Latitude</label>
+                  <input
+                    type="number"
+                    step="0.001"
+                    id="lat"
+                    name="lat"
+                    placeholder="e.g., 42.360"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="lon">Longitude</label>
+                  <input
+                    type="number"
+                    step="0.001"
+                    id="lon"
+                    name="lon"
+                    placeholder="e.g., -71.060"
+                    required
+                  />
+                </div>
+
+                <button type="submit">Get Forecast</button>
+              </form>
+
+              <p id="astro-message" class="message"></p>
+            </section>
+
+            <section>
+              <h2>What we show</h2>
+              <ul class="metric-list">
+                <li>
+                  <strong>Cloud Cover</strong> – portion of the sky covered by
+                  clouds.
+                </li>
+                <li>
+                  <strong>Seeing</strong> – stability of the atmosphere for high
+                  magnification views.
+                </li>
+                <li>
+                  <strong>Transparency</strong> – clarity of the sky, important
+                  for faint objects.
+                </li>
+                <li>
+                  <strong>Temperature</strong> – air temperature (approximate
+                  comfort & equipment impact).
+                </li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+        <div class="card" id="results-card" style="display: none">
+          <h2>Forecast</h2>
+          <p id="astro-meta" class="small-text"></p>
+          <div id="astro-results"></div>
+        </div>
+      </main>
+
+      <div id="footer"></div>
+    </div>
+
+    <script src="js/loadPartials.js"></script>
+    <script>
+      const astroForm = document.getElementById("astro-form");
+      const msg = document.getElementById("astro-message");
+      const resultsCard = document.getElementById("results-card");
+      const meta = document.getElementById("astro-meta");
+      const results = document.getElementById("astro-results");
+
+      astroForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        msg.textContent =
+          "This will call our backend 7Timer endpoint once it is implemented.";
+        msg.className = "message";
+        resultsCard.style.display = "none";
+        results.innerHTML = "";
+        meta.textContent = "";
+      });
+    </script>
+  </body>
+</html>
