@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>API Call</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    function Module (title) {
+        this.title = title;
+        this.data = [];
+        console.log("Module " + this.title + " initiated with value " + this.data);
+    }
+</script>
+<style type="text/css">
+    body, html {font-family:"Lato", "sans-serif"}
+    .box {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: #f5eadd;
+            border: .1em solid #000000;
+            border-radius: .5vw;
+            width: 15vw;
+            display: inline-block;
+            font-size: 1vw;
+        }
+    #boxes{
+        display: flex;
+        gap: 7vw;
+        flex-wrap: wrap;
+    }
+    #title{
+        font-size: 3vw;
+    }
+    </style>
+</head>
+<body>
+    <h1 id = "title">Title and header bar goes here</h1>
+    <div id = "boxes"></div>
+<script>
+
+        async function get_data() {
+        let x = 113.17;
+        let y = 23.09;
+        let response = await fetch("http://www.7timer.info/bin/api.pl?lon=" + x + "&lat=" + y + "&product=astro&output=json");
+        if (response.ok) {
+            let json = await response.json();
+            let text_t = JSON.stringify(json);
+            // console.log(text_t);
+            let objj = JSON.parse(text_t);
+
+           
+            let modules_arr = [new Module("timepoint"), new Module("cloudcover"), new Module("seeing"), new Module("transparency"), new Module("lifted_index"), new Module("rh2m"), new Module("wind10m"), new Module("temp2m"), new Module("prec_type")];
+            console.log(modules_arr);
+
+            console.log(Array.isArray(modules_arr[0].data));
+            // alert(JSON.stringify(objj.dataseries[0]));
+            objj.dataseries.forEach ( (x) => {
+                modules_arr[0].data.push(x.timepoint);
+                modules_arr[1].data.push(x.cloudcover);
+                modules_arr[2].data.push(x.seeing);
+                modules_arr[3].data.push(x.transparency);
+                modules_arr[4].data.push(x.lifted_index);
+                modules_arr[5].data.push(x.rh2m);
+                modules_arr[6].data.push(x.wind10m);
+                modules_arr[7].data.push(x.temp2m);
+                modules_arr[8].data.push(x.prec_type);
+            });
+
+            modules_arr.forEach ( (x) => {
+            document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.data[0] + "</h2></div>")
+            });
+
+
+
+
+
+        } else {
+            alert("HTTP-Error: " + response.status);
+        }
+    }
+
+    get_data()
+
+
+
+
+
+</script>
+</body>
+</html>
+
