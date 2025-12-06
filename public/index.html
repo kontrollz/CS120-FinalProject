@@ -13,6 +13,7 @@
 </head>
 <body>
     <h1>Starview</h1>
+    <h2 id="greeting"></h2>
     <nav id="login-nav-bar">
         <a href="/login">Log in</a>
         <a href="/signup">Create an account</a>
@@ -25,6 +26,7 @@
         async function hideNav() {
             const navBar = document.getElementById('login-nav-bar');
             const logoutBtn = document.getElementById('logout-btn');
+            const greeting = document.getElementById('greeting');
             try {
                 const response = await fetch('/session');
                 const data = await response.json();
@@ -32,6 +34,7 @@
                 if (data.loggedIn) {
                     navBar.style.display = 'none';
                     logoutBtn.style.display = 'block';
+                    greeting.textContent = `Hello, ${data.user.username}!`
                 }
 
             } catch (e) {

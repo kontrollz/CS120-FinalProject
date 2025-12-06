@@ -78,7 +78,6 @@ if (loginForm) {
             const data = await response.json();
 
             if (data.success) {
-                alert(data.message);
                 window.location.href = '/'
             } else {
                 alert('Login failed: ' + data.message);
