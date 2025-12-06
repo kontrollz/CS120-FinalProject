@@ -28,6 +28,7 @@
     #boxes{
         display: flex;
         gap: 7vw;
+        margin-top: 2vw;
         margin-left:7vw;
         flex-wrap: wrap;
     }
@@ -42,6 +43,7 @@
 <body>
     <h1 id = "title">Title and header bar goes here</h1>
     <div id = "dateloc"></div>
+    <div id = "select"></div>
     <div id = "boxes"></div>
 <script>
 
@@ -92,10 +94,14 @@
 
             modules_arr[0].label.forEach ( (x, index) => {
                 var1 = ((x) + Number(objj.init));
-                if (String(var1).slice(8,10) != "24"){
+                if (Number(String(var1).slice(8,10)) < 24){
                 modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(var1).slice(6, 8) + " " + String(var1).slice(8,10) + ":00");
-                } else {
-                modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(Number(String(var1).slice(6, 8))+1) + " 00:00");
+                } else if (Number(String(var1).slice(8,10)) < 48) {
+                modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(Number(String(var1).slice(6, 8))+1) + " " + (Number(String(var1).slice(8,10))-24) + ":00");
+                } else if (Number(String(var1).slice(8,10)) < 72) {
+                modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(Number(String(var1).slice(6, 8))+2) + " " + (Number(String(var1).slice(8,10))-48) + ":00");
+                } else if (Number(String(var1).slice(8,10)) < 96) {
+                modules_arr[0].label[index] = (String(var1).slice(0, 4) + "-" + String(var1).slice(4, 6) + "-" + String(Number(String(var1).slice(6, 8))+3) + " " + (Number(String(var1).slice(8,10))-72) + ":00");
                 } 
             });
 
@@ -226,10 +232,22 @@
 
 
             // Displaying in boxes
-
-            modules_arr.forEach ( (x) => {
-            document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.label[0] + "</h2></div>")
+            // Select input
+            htmlstring = "<select label = 'Projection Timepoint' id = 'selector'> <option disabled selected>Select a timepoint</option>";
+	        modules_arr[0].label.forEach( (x, index) => {
+                        htmlstring += ("<option>" + x + " </option>");
             });
+            htmlstring += "</select>";
+            document.getElementById("select").innerHTML += htmlstring;
+
+            
+            document.getElementById("select").addEventListener('change', function (e) {
+                const i = (e.target.selectedIndex-1); // minus 1 to account for the dummy option
+                document.getElementById('boxes').innerHTML = "";
+            modules_arr.forEach ( (x) => {
+                document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.label[i] + "</h2></div>");
+            })
+        });
 
 
 
