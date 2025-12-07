@@ -63,7 +63,7 @@ const functions = {
     },
 
     // updates email
-    async updatePassword(username, email) {
+    async updateEmail(username, email) {
         const sql = "UPDATE users                           \
                      SET    email     = ?,                  \
                             update_at = CURRENT_TIMESTAMP   \
