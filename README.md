@@ -4,7 +4,7 @@
 
 We plan on creating a **weather forecast app for astronomy** using the [7Timer API](https://www.7timer.info/doc.php?lang=en). This API provides meteorological services important to astronomers, such as:
 
-- **Cloud cover**  
+- **Cloud coverage**  
 - **Astronomical seeing** (air turbulence affecting observation)  
 - **Atmospheric transparency**
 

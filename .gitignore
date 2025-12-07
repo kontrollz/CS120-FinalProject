@@ -5,3 +5,4 @@
 .github/instructions/snyk_rules.instructions.md
 credentials.env
 process.env
+/src/tests/*

@@ -6,72 +6,35 @@ require('dotenv').config();
 
 // import packages
 const express = require('express');
-const db = require('./src/database/connection.js');
-const userModel = require('./src/models/userModel.js');
+const authRouter = require('./src/routes/authRoutes.js')
+const path = require('path');
+const session = require('express-session');
 
-
-console.log("server.js loaded requires successfully");
-
-// TEST that db connection works
-(async () => {
-    try {
-        const [rows] = await db.query('SELECT 1+1 AS result');
-        console.log('DB OK:', rows);
-    } catch (err) {
-        console.error('DB ERROR:', err.message);
-    }
-})();
-
-// TEST
-(async () => {
-    try {
-        await userModel.removeUser("testuser"); // ignore if not present
-    } catch (_) {}
-
-    try {
-        const result = await userModel.addUser("testuser", "testpass", "test@example.com");
-        console.log("addUser OK:", result);
-    } catch (err) {
-        console.error("DB ERROR:", err.message);
-    }
-
-    try {
-        const users = await userModel.getAllUsers();
-        console.log("All users:", users);
-    } catch (err) {
-        console.error("DB ERROR:", err.message);
-    }
-
-    // test setConfirmed
-    try {
-        const result = await userModel.setConfirmed("testuser");
-        console.log("setConfirmed OK:", result);
-    } catch (err) {
-        console.error("DB ERROR:", err.message);
-    }
-
-    try {
-        const remove = await userModel.removeUser("testuser");
-        console.log("removeUser OK:", remove);
-    } catch (err) {
-        console.error("DB ERROR:", err.message);
-    }
-})();
 
 // create express app
 const app = express();
 
-// middleware
+// middleware to parse json and form data
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-// TODO: will eventually import and use routes
+// middleware to set up sessions (for when users log in)
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false, 
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+    }
+}))
 
+// serve static files from 'public' folder. Without this,
+// browser doesn't know where to find the linked CSS and JS 
+// files inside our html
+app.use(express.static(path.join(__dirname, 'public')));
 
-// testing
-app.get('/', (req, res) => {
-  res.send('hello world');
-});
+// use auth routes
+app.use('/', authRouter);
 
 // start server
 const PORT = process.env.PORT || 3000;

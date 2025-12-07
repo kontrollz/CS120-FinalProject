@@ -6,13 +6,25 @@
 </head>
 <body>
    <div id="header"></div>
-     
+      <h1>Welcome to Starview!</h1>
+      <h2>Login</h2>
+      <form id="login-form">
+         <div class="login-field">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+         </div>
+         <div class="login-field">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+         </div>
 
-
+         <button type="submit" id="login-submit">Login</button>
+      </form>
 
 
    <div id="footer"></div>
 
-   <script src="loadPartials.js"></script>
+   <!-- <script src="js/loadPartials.js"></script> -->
+   <script src="js/auth.js"></script>
 </body>
 </html>

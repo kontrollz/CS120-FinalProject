@@ -10,33 +10,33 @@
    <div id="header"></div>
      
    <h1>Welcome to Starview!</h1>
-
+    <h2>Sign Up</h2>
     <form id="signup-form">
 
         <div class="signup-field">
-            <label for="first-name">First Name:</label>
-            <input type="text" name="firstName">
-        </div>
-        <div class="signup-field">
-            <label for="last-name">Last Name:</label>
-            <input type="text" name="lastName">
-        </div>
-        <div class="signup-field">
             <label for="email">Email:</label>
-            <input type="email" name="email">
+            <input type="email" id="email" name="email" required>
         </div>
-
+        <div class="signup-field">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
         <div class="signup-field">
             <label for="password">Password:</label>
-            <input type="password" name="password">
+            <input type="password" id="password" name="password" required>
+        </div>
+            <div class="signup-field">
+            <label for="pass-confirmation">Confirm Password:</label>
+            <input type="password" id="pass-confirmation" name="passConf" required>
         </div>
 
-        <button type="submit" id="signup-submit">Submit</button>
+        <button type="submit" id="signup-submit">Sign Up</button>
     </form>
 
     <div id="footer"></div>
 
     <!-- link js files -->
-    <script src="loadPartials.js"></script>
+    <!-- <script src="loadPartials.js"></script> -->
+    <script src="js/auth.js"></script>
 </body>
 </html>
