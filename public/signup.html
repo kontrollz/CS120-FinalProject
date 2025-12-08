@@ -3,40 +3,82 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-     <title>Sign Up</title>
-</head>
-<body>
-   <div id="header"></div>
-     
-   <h1>Welcome to Starview!</h1>
-    <h2>Sign Up</h2>
-    <form id="signup-form">
+  <head>
+    <title>Sign Up - StarView</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div id="header"></div>
 
-        <div class="signup-field">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div class="signup-field">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div class="signup-field">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-            <div class="signup-field">
-            <label for="pass-confirmation">Confirm Password:</label>
-            <input type="password" id="pass-confirmation" name="passConf" required>
+      <main>
+        <div class="card" id="signup-card">
+          <p class="page-intro">
+            Create a StarView account to save locations and customize the
+            metrics you care about.
+          </p>
+          <h1>Sign Up</h1>
+
+          <form id="signup-form">
+            <div class="form-row">
+              <label for="signup-user">Username</label>
+              <input
+                type="text"
+                id="signup-user"
+                name="username"
+                maxlength="25"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" name="email" required />
+            </div>
+
+            <div class="form-row">
+              <label for="signup-pass">Password</label>
+              <input
+                type="password"
+                id="signup-pass"
+                name="password"
+                maxlength="25"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <label for="confirm-pass">Confirm password</label>
+              <input
+                type="password"
+                id="confirm-pass"
+                name="passConf"
+                maxlength="25"
+                required
+              />
+            </div>
+
+            <button type="submit" id="signup-submit">Create Account</button>
+          </form>
+
+          <p id="signup-message" class="message"></p>
+
+          <p class="small-text">
+            Already have an account?
+            <a href="/login">Log in here.</a>
+          </p>
         </div>
 
-        <button type="submit" id="signup-submit">Sign Up</button>
-    </form>
+        <div class="card" id="check-email-card">
+          <h1 id="check-email-message"></h1>
+        </div>
 
-    <div id="footer"></div>
+      </main>
 
-    <!-- link js files -->
-    <!-- <script src="loadPartials.js"></script> -->
+      <div id="footer"></div>
+    </div>
+
+    <script src="js/loadPartials.js"></script>
     <script src="js/auth.js"></script>
-</body>
+  </body>
 </html>

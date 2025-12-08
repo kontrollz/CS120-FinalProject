@@ -5,7 +5,12 @@ const authController = require('../controllers/authController.js');
 
 // landing page for website
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../public', 'dashboard.html'));
+});
+
+// dashboard, will prob update this to what John makes
+router.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public', 'dashboard.html'));
 });
 
 // login route, will eventually need POST too
@@ -24,6 +29,14 @@ router.get('/session', authController.checkSessionStatus);
 
 // log user out
 router.post('/logout', authController.logout);
+
+// forgot password
+router.get('/forgot-password', authController.showForgotPasswordPage);
+router.post('/forgot-password', authController.sendPasswordResetEmail);
+
+// reset password 
+router.get('/reset-password/:token', authController.showResetPage);
+router.post('/reset-password', authController.resetPassword);
 
 
 module.exports = router;

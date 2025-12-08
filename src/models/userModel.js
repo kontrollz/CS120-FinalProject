@@ -1,16 +1,11 @@
 // get db connection
 const db = require('../database/sqlite_conn');
 const bcrypt = require('bcrypt');
-const crypto = require('crypto'); // to generate token
-const { json } = require('express');
 
 // add user function
-const addUser = (email, username, password) => {
+const addUser = (email, username, password, verificationToken) => {
     // hash password
     const passwordHash = bcrypt.hashSync(password, 10);
-
-    // generate a random verification token
-    const verificationToken = crypto.randomUUID();
 
     // prepare sql statement 
     const stmt = db.prepare(`
@@ -20,8 +15,6 @@ const addUser = (email, username, password) => {
 
     // run sql stmt
     stmt.run(email, username, passwordHash, verificationToken);
-    return verificationToken;
-
 };
 
 // is email unique -> boolean
@@ -52,7 +45,7 @@ const isUsernameUnique = (username) => {
 // find user by token
 const verifyUser = (token) => {
     // find user by token
-    const user = findUserByToken(token);
+    const user = findUserByVerificationToken(token);
 
     if (!user) {
         return false;
@@ -64,17 +57,24 @@ const verifyUser = (token) => {
 };
 
 // search db for a token match
-const findUserByToken = (token) => {
+const findUserByVerificationToken = (token) => {
     return db.prepare(`
                 SELECT * FROM Users WHERE verification_token = ? 
             `).get(token);
 };
 
 // search db for a token match
-const findUserByUsername= (username) => {
+const findUserByUsername = (username) => {
     return db.prepare(`
                 SELECT * FROM Users WHERE username = ? 
             `).get(username);
+};
+
+// search db for a token match
+const findUserByEmail = (email) => {
+    return db.prepare(`
+                SELECT * FROM Users WHERE email = ? 
+            `).get(email);
 };
 
 // update user's 'verified' field to 1 (true) and set
@@ -87,8 +87,35 @@ const verifyUserInDB = (userId) => {
         `).run(userId);
 };
 
+// update user's password_token field
+const updatePasswordToken = (userId, token) => {
+    return db.prepare(`
+            UPDATE Users
+            SET password_token = ?
+            WHERE id = ? 
+        `).run(token, userId);
+};
 
+// updatePassword
+const updatePassword = (token, newPassword) => {
+    // hash password
+    const passwordHash = bcrypt.hashSync(newPassword, 10);
 
+    // update password
+    return db.prepare(`
+            UPDATE Users
+            SET password_hash = ?, password_token = null
+            WHERE password_token = ? 
+        `).run(passwordHash, token);
+
+};
+
+// find user by password_token
+const findUserByPasswordToken = (passwordToken) => {
+    return db.prepare(`
+                SELECT * FROM Users WHERE password_token = ? 
+            `).get(passwordToken);
+}
 
 
 module.exports = {
@@ -96,5 +123,9 @@ module.exports = {
     isEmailUnique,
     isUsernameUnique,
     verifyUser,
-    findUserByUsername
+    findUserByUsername,
+    findUserByEmail,
+    updatePasswordToken,
+    updatePassword,
+    findUserByPasswordToken
 };
