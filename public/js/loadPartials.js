@@ -17,5 +17,5 @@ async function loadPartial(id, file) {
 }
 
 // call function for both header and footer
-loadPartial('header', 'header.html');
-loadPartial('footer', 'footer.html');
+// loadPartial('header', 'header.html');
+// loadPartial('footer', 'footer.html');
