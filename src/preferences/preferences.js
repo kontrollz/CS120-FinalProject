@@ -8,7 +8,9 @@ const functions  = {
     // }
 
     async getUserPreference(user, preference) {
-        const sql = "SELECT ?"
+        const sql = "SELECT ?           \
+                     FROM   preferences \
+                     WHERE  user_id = user, "
     }
 };
 
