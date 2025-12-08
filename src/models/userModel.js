@@ -24,7 +24,7 @@ const functions = {
     // add user
     async addUser(username, password, email) {
         const sql = "INSERT INTO users  (user, pass, email) \
-                     VALUES             (?,    ?,    ?)";
+                     VALUES             (?,    ?,    ?)     ";
         return db.query(sql, [username, password, email]);
     },
     
