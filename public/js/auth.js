@@ -185,6 +185,7 @@ if (resetForm) {
             if (data.success) {
                 resetMsg.textContent = "Password updated!";
                 resetMsg.className = "message success";
+                resetForm.reset();
             } else {
                 console.error('ERROR: ', data.error);
                 alert('error updating password in database'); // in case token is invalid or user not found
