@@ -12,6 +12,13 @@ const functions  = {
                      FROM   preferences \
                      WHERE  user_id = ? ";
         return db.query(sql, [preference, user]);
+    },
+
+    async updateUserPreference(user, preference, value) {
+        const sql = "UPDATE preferences \
+                     SET    ?       = ? \
+                     WHERE  user_id = ? ";
+        return db.query(sql, [preference, value, user]);
     }
 };
 
