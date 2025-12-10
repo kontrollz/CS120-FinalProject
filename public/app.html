@@ -11,6 +11,11 @@
 		this.show = true;
         console.log("Module " + this.title + " initiated with value " + this.data);
     }
+
+	function Preferences (title, show) {
+		this.title = title;
+		this.show = show;
+	};
 </script>
 <style type="text/css">
     body, html {font-family:"Lato", "sans-serif"}
@@ -48,7 +53,7 @@
     <div id = "boxes"></div>
 <script>
 		// user input variables
-		let prefs = []; // replace with array from SQL with attributes "title" (name of module) and "show" (bool for show-hide)
+	    let prefs_arr = [new Preferences("timepoint", true), new Preferences("cloudcover", false), new Preferences("seeing", true), new Preferences("transparency", true), new Preferences("lifted_index", true), new Preferences("rh2m", true), new Preferences("wind10m", true), new Preferences("temp2m", true), new Preferences("prec_type", true)];
 		let lon = 113.17; // replace with user input;
         let lat = 23.09; // replace with user input
 			
