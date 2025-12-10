@@ -8,6 +8,7 @@
         this.title = title;
         this.data = [];
         this.label = [];
+		this.show = true;
         console.log("Module " + this.title + " initiated with value " + this.data);
     }
 </script>
@@ -46,10 +47,12 @@
     <div id = "select"></div>
     <div id = "boxes"></div>
 <script>
-
+		// user input variables
+		let prefs = []; // replace with array from SQL with attributes "title" (name of module) and "show" (bool for show-hide)
+		let lon = 113.17; // replace with user input;
+        let lat = 23.09; // replace with user input
+			
         async function get_data() {
-        let lon = 113.17;
-        let lat = 23.09;
         let response = await fetch("http://www.7timer.info/bin/api.pl?lon=" + lon + "&lat=" + lat + "&product=astro&output=json");
         if (response.ok) {
             let json = await response.json();
@@ -229,7 +232,13 @@
 
             });
 
-
+			// add show-hide prefs
+			modules_arr.forEach( (m) => {
+				prefs.forEach( (p) => {
+					if (p.title == m.title) {
+					m.show = p.show;
+				})
+			});
 
             // Displaying in boxes
             // Select input
@@ -245,8 +254,10 @@
                 const i = (e.target.selectedIndex-1); // minus 1 to account for the dummy option
                 document.getElementById('boxes').innerHTML = "";
             modules_arr.forEach ( (x) => {
+				if (x.show == true) {
                 document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.label[i] + "</h2></div>");
-            })
+				}
+			})
         });
 
 
