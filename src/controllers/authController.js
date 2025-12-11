@@ -54,7 +54,7 @@ const sendConfirmationEmail = (email, username, token) => {
     if (process.env.NODE_ENV === 'production') {
         url = `https://starview-494def4e3415.herokuapp.com/confirm/${token}`;
     } else {
-        url = `http://localhost:8080/confirm/${token}`
+        url = `http://localhost:8080/confirm/${token}`;
     }
     const subject = "Starview Email Confirmation";
     const html = `
@@ -253,7 +253,7 @@ const sendPassResetEmail = (email, username, token) => {
     if (process.env.NODE_ENV === 'production') {
         url = `https://starview-494def4e3415.herokuapp.com/reset-password/${token}`;
     } else {
-        url = `http://localhost:8080/reset-password/${token}`
+        url = `http://localhost:8080/reset-password/${token}`;
     }
 
     const subject = "Starview Password Reset";
