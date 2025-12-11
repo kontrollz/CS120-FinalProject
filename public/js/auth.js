@@ -50,7 +50,7 @@ if (signupForm) {
                 checkEmailDiv.style.display = 'block';
 
             } else {
-                alert("Signup failed: ", data.message);
+                alert(`Signup failed: ${data.message}`);
             }
             
             // reset form
@@ -89,7 +89,7 @@ if (loginForm) {
             if (data.success) {
                 window.location.href = '/dashboard'
             } else {
-                alert('Login failed: ', data.message);
+                alert(`Login failed: ${data.message}`);
                 loginForm.reset();
             }
         
