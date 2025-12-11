@@ -8,6 +8,11 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public', 'dashboard.html'));
 });
 
+// forecast page
+router.get('/forecast', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public', 'forecast.html'));
+});
+
 // dashboard, will prob update this to what John makes
 router.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public', 'dashboard.html'));

@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>App</title>
+<title>Forecast - Starview</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
@@ -53,11 +53,15 @@
     <div id = "boxes"></div>
 <script>
 		// user input variables
-	    let prefs_arr = [new Pref("timepoint", true), new Pref("cloudcover", false), new Pref("seeing", true), new Pref("transparency", true), new Pref("lifted_index", true), new Pref("rh2m", true), new Pref("wind10m", true), new Pref("temp2m", true), new Pref("prec_type", true)];
-		let lon = 113.17; // replace with user input;
-        let lat = 23.09; // replace with user input
-			
+	    let prefs = [new Pref("timepoint", false), new Pref("cloudcover", false), new Pref("seeing", false), new Pref("transparency", true), new Pref("lifted_index", true), new Pref("rh2m", true), new Pref("wind10m", true), new Pref("temp2m", true), new Pref("prec_type", true)];
+		
+        // get params from query string
+        const params = new URLSearchParams(window.location.search);
+        const lat = params.get('lat');
+        const lon = params.get('lon');
+		console.log(lat, lon);
         async function get_data() {
+        // fetch api in backend instead
         let response = await fetch("http://www.7timer.info/bin/api.pl?lon=" + lon + "&lat=" + lat + "&product=astro&output=json");
         if (response.ok) {
             let json = await response.json();
@@ -66,7 +70,7 @@
             let objj = JSON.parse(text_t);
 
             timet = (String(objj.init).slice(0, 4) + "-" + String(objj.init).slice(4, 6) + "-" + String(objj.init).slice(6, 8) + " " + String(objj.init).slice(8,10) + ":00");
-            document.getElementById('dateloc').innerHTML += ("<h2 id='subtitle'>Projection Time: " + timet + ", Location: (" + lon + ", " + lat + ")");
+            document.getElementById('dateloc').innerHTML += ("<h2 id='subtitle'>Projection Time: " + timet + ", Location: (" + lon + "° lat, " + lat + "° lon)");
 
            
             let modules_arr = [new Module("timepoint"), new Module("cloudcover"), new Module("seeing"), new Module("transparency"), new Module("lifted_index"), new Module("rh2m"), new Module("wind10m"), new Module("temp2m"), new Module("prec_type")];
