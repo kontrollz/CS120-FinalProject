@@ -18,7 +18,7 @@
 		this.show = show;
 	};
 </script>
-<style type="text/css">
+<!-- <style type="text/css">
     body, html {font-family:"Lato", "sans-serif"}
     .box {
             align-items: center;
@@ -45,14 +45,29 @@
     #subtitle{
         font-size: 2vw;
     }
-    </style>
+    </style> -->
 </head>
 <body>
-    <h1 id = "title">Title and header bar goes here</h1>
-    <div id = "dateloc"></div>
-    <div id = "select"></div>
-    <div id = "boxes"></div>
-<script>
+    <div class="page">
+        <h1 id="app-title">Forecast Module Viewer</h1>
+    
+        <div id="projection-info">
+            <strong>Projection Time:</strong> <span id="proj-time"></span><br>
+            <strong>Location:</strong> <span id="proj-loc"></span>
+        </div>
+    
+        <div id="select">
+            <label for="selector" class="small-text">Select timepoint:</label><br>
+            <select id="selector">
+                <option disabled selected value="">-- choose --</option>
+            </select>
+        </div>
+    
+        <!-- <div id = "dateloc"></div>
+        <div id = "select"></div> -->
+        <div id="boxes" class="module-grid"></div>
+    </div>
+    <script>
 		// user input variables
 	    let prefs = [new Pref("timepoint", true), new Pref("cloudcover", false), new Pref("seeing", true), new Pref("transparency", true), new Pref("lifted_index", true), new Pref("rh2m", true), new Pref("wind10m", true), new Pref("temp2m", true), new Pref("prec_type", true)];
 		let lon = 113.17; // replace with user input;
@@ -67,7 +82,9 @@
             let objj = JSON.parse(text_t);
 
             timet = (String(objj.init).slice(0, 4) + "-" + String(objj.init).slice(4, 6) + "-" + String(objj.init).slice(6, 8) + " " + String(objj.init).slice(8,10) + ":00");
-            document.getElementById('dateloc').innerHTML += ("<h2 id='subtitle'>Projection Time: " + timet + ", Location: (" + lon + ", " + lat + ")");
+            // document.getElementById('dateloc').innerHTML += ("<h2 id='subtitle'>Projection Time: " + timet + ", Location: (" + lon + ", " + lat + ")");
+            document.getElementById('proj-time').textContent = timet;
+            document.getElementById('proj-loc').textContent = "(" + lon + ", " + lat + ")";
 
            
             let modules_arr = [new Module("timepoint"), new Module("cloudcover"), new Module("seeing"), new Module("transparency"), new Module("lifted_index"), new Module("rh2m"), new Module("wind10m"), new Module("temp2m"), new Module("prec_type")];
@@ -249,20 +266,17 @@
 
             // Displaying in boxes
             // Select input
-            htmlstring = "<select label = 'Projection Timepoint' id = 'selector'> <option disabled selected>Select a timepoint</option>";
+            let selector = document.getElementById("selector");
 	        modules_arr[0].label.forEach( (x, index) => {
-                        htmlstring += ("<option>" + x + " </option>");
+                selector.innerHTML += ("<option>" + x + " </option>");
             });
-            htmlstring += "</select>";
-            document.getElementById("select").innerHTML += htmlstring;
-
             
-            document.getElementById("select").addEventListener('change', function (e) {
+            selector.addEventListener('change', function (e) {
                 const i = (e.target.selectedIndex-1); // minus 1 to account for the dummy option
                 document.getElementById('boxes').innerHTML = "";
             modules_arr.forEach ( (x) => {
 				if (x.show == true) {
-                document.getElementById('boxes').innerHTML += ("<div class = 'box' ><h1>" + x.title + "</h1><br /><h2>" + x.label[i] + "</h2></div>");
+                document.getElementById('boxes').innerHTML += ("<div class='module-box'><h1>" + x.title + "</h1><br /><h2>" + x.label[i] + "</h2></div>");
 				}
 			})
         });
