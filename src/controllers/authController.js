@@ -10,14 +10,14 @@ const showSignup = (req, res) => {
 };
 
 // signup page - post, sign user up
-const userSignup = (req, res) => {
+const userSignup = async (req, res) => {
     try {
     // the request from frontend should have three things:
     // email, user, pass
     const {email, username, password} = req.body;
 
     // check if email and password are unique
-    const credentialsAreUnique = userModel.isEmailUnique(email) && userModel.isUsernameUnique(username)
+    const credentialsAreUnique = await userModel.isEmailUnique(email) && await userModel.isUsernameUnique(username)
     if (!credentialsAreUnique) {
         return res.json({
             success: false,
@@ -29,7 +29,7 @@ const userSignup = (req, res) => {
     token = tokenUtils.generateToken();
     
     // add user to db
-    userModel.addUser(email, username, password, token);
+    await userModel.addUser(email, username, password, token);
 
     // send confirmation email
     sendConfirmationEmail(email, username, token);
@@ -74,8 +74,7 @@ const showLogin = (req, res) => {
 const userLogin = async (req, res) => {
     const {username, password} = req.body;
 
-    const user = userModel.findUserByUsername(username);
-
+    const user = await userModel.findUserByUsername(username);
     // return failure message if username not found
     if (!user) {
         return res.json({
@@ -83,7 +82,6 @@ const userLogin = async (req, res) => {
             message: "username not found"
         });
     }
-
     // check if pass is valid
     const validPass = await bcrypt.compare(password, user.password_hash);
 
@@ -114,7 +112,7 @@ const userLogin = async (req, res) => {
 //       db if user clicks link a second time
 
 // confirm email logic
-const confirmEmail = (req, res) => {
+const confirmEmail = async (req, res) => {
     const token = req.params.token;
 
     // ensure we have a token as a route parameter
@@ -127,7 +125,8 @@ const confirmEmail = (req, res) => {
 
     try {
         // find user in db, update 'verified' field
-        if (userModel.verifyUser(token)) {
+        const userVerified = await userModel.verifyUser(token);
+        if (userVerified) {
             return res.sendFile(path.join(__dirname, '../../public', 'confirmed.html'));
         } else {
             return res.json({
@@ -185,13 +184,13 @@ const showForgotPasswordPage = (req, res) => {
 };
 
 // main logic for forgot-password route
-const sendPasswordResetEmail = (req, res) => {
+const sendPasswordResetEmail = async (req, res) => {
     try {
         const email = req.body.email;
-        const user = userModel.findUserByEmail(email);
+        const user = await userModel.findUserByEmail(email);
         const token = tokenUtils.generateToken();
         
-        userModel.updatePasswordToken(user.id, token);
+        await userModel.updatePasswordToken(user.id, token);
 
         sendPassResetEmail(user.email, user.username, token);
 
@@ -228,7 +227,7 @@ const sendPassResetEmail = (email, username, token) => {
 
 
 // serve reset-password.html page
-const showResetPage = (req, res) => {
+const showResetPage = async (req, res) => {
     // get token
     const token = req.params.token;
 
@@ -243,7 +242,8 @@ const showResetPage = (req, res) => {
     // verify token matches
     try {
         // find user in db, update 'verified' field
-        if (userModel.findUserByPasswordToken(token)) {
+        const user = await userModel.findUserByPasswordToken(token);
+        if (user) {
             return res.sendFile(path.join(__dirname, '../../public', 'reset_password.html'));
         } else {
             return res.json({
@@ -262,13 +262,13 @@ const showResetPage = (req, res) => {
 
 };
 
-const resetPassword = (req, res) => {
+const resetPassword = async (req, res) => {
     // get token and password from request
     token = req.body.token;
     newPassword = req.body.password
 
     // find user by password_token
-    user = userModel.findUserByPasswordToken(token);
+    user = await userModel.findUserByPasswordToken(token);
 
     if (!user) {
         return res.json({
@@ -278,7 +278,7 @@ const resetPassword = (req, res) => {
     }
     try {
         // update password
-        userModel.updatePassword(token, newPassword);
+        await userModel.updatePassword(token, newPassword);
 
         return res.json({
             success: true, 
