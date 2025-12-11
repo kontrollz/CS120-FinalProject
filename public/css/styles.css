@@ -351,3 +351,107 @@ button:disabled {
     margin-right: auto;
 
 }
+
+
+/* Styles for app.html */
+
+#app-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+#app-subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+#projection-info {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.4rem;
+}
+
+#selector {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(10, 14, 26, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  outline: none;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+#selector:focus {
+  border-color: var(--accent);
+}
+
+#selector option {
+  background: #0b1020;
+  color: var(--text);
+}
+
+#modules-wrapper {
+  margin-top: 16px;
+}
+
+.module-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.module-box {
+  background: linear-gradient(135deg, var(--card), #080d1d);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  width: 215px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.module-box h1 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.module-box h2 {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* timepoint dropdown */
+
+#selector {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(2, 4, 15, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+
+#selector:focus {
+  border-color: var(--accent);
+}
+
+
+/* Styles for confirmed.html */
+
+.confirm-box {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.confirm-box .btn {
+  margin-top: 12px;
+  display: inline-block;
+}
