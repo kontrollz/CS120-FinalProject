@@ -1,29 +1,9 @@
-INSERT INTO users (email, username, password_hash, verification_token)
-VALUES ($1, $2, $3, $4)
-```  [oai_citation:1‡userModel.js](sediment://file_00000000cfbc71fdb67532194f6f7b1c)  
-
-So we should:
-
-1. Stop manually inserting into `users` with wrong columns / `?`.
-2. Use the existing `addUser` / `findUserByEmail` helpers from `userModel`.  [oai_citation:2‡userMode.test.js](sediment://file_00000000ce8071f8b3b194e9cedc994c)  
-3. Use Postgres placeholders (`$1`, `$2`, …).
-4. Match `preferencesModel.js`, which now returns the value directly and throws `"Invalid preference name"` for bad columns.  [oai_citation:3‡preferencesModel.js](sediment://file_00000000707071f8bdbaba860d286771)  
-
-Right now your `preferencesModel.js` looks good. The only thing causing the syntax error is the **test file**.
-
----
-
-## Replace `src/models/preferencesModel.test.js` with this
-
-```js
 // src/models/preferencesModel.test.js
+
 require('dotenv').config();
 const pool = require('../database/connection');
 const prefs = require('./preferencesModel');
-const {
-  addUser,
-  findUserByEmail,
-} = require('./userModel');
+const { addUser, findUserByEmail } = require('./userModel');
 
 // Test user info
 const email = 'prefs_jest_user@example.com';
