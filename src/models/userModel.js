@@ -91,9 +91,10 @@ const findUserByEmail = async (email) => {
 // verification_token to null
 const verifyUserInDB = async (userId) => {
     await pool.query(`
-            UPDATE users
-            SET verified = TRUE, verification_token = NULL
-            WHERE id = $1 
+            UPDATE  users
+            SET     verified            = TRUE, 
+                    verification_token  = NULL
+            WHERE   id                  = $1 
         `, [userId]);
 };
 
