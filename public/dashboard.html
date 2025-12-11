@@ -80,11 +80,7 @@
           </div>
         </div>
 
-        <div class="card" id="results-card" style="display: none">
-          <h2>Forecast</h2>
-          <p id="astro-meta" class="small-text"></p>
-          <div id="astro-results"></div>
-        </div>
+
       </main>
 
       <div id="footer"></div>
@@ -95,19 +91,50 @@
     <script>
       const astroForm = document.getElementById("astro-form");
       const msg = document.getElementById("astro-message");
-      const resultsCard = document.getElementById("results-card");
-      const meta = document.getElementById("astro-meta");
-      const results = document.getElementById("astro-results");
-
+      
       astroForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        
+        // get form data
+        const formData = new FormData(astroForm);
+        const data = Object.fromEntries(formData);
+        const lat = data.lat;
+        const lon = data.lon;
+
+        const invalid = false;
+        // need to enforce valid lat/lon
+        if (invalid) {
         msg.textContent =
-          "This will call our backend 7Timer endpoint once it is implemented.";
-        msg.className = "message";
-        resultsCard.style.display = "none";
-        results.innerHTML = "";
-        meta.textContent = "";
+          "Please enter a valid lat/lon!."; // they won't see this unless there's an error with lat/lon
+        }
+
+        // get request with lat and lon, john's page will collect query
+        window.location.href = `/forecast?lat=${lat}&lon=${lon}`;
+
+
       });
+
+      // no matter what, we're passing a lat/lon to john's page
+      // we'll use the session to figure out what to display to the user
+      // 'Boston', or 'Current Location (lat/lon)', or 'lat/lon'
+
+      // want to accept a city -> this might not be feasible
+        // https://api.opencagedata.com/ <-- this should work! need to make an account and get a key
+
+      // want to accept a lat/lon -> no extra logic necessary, just pull from form
+
+      // want to use current location. this is actually really easy
+    //       navigator.geolocation.getCurrentPosition(
+    //          (position) => {
+    //          const { latitude, lonitude } = position.coords;
+    //          console.log("Lat:", latitude, "Lon:", lonitude);
+    //          },
+    //              (error) => {
+    //                  console.error("Error getting location:", error);
+    //          }
+    //       );
+      
+
     </script>
   </body>
 </html>
