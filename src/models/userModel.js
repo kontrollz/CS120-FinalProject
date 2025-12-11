@@ -9,7 +9,7 @@ const addUser = async (email, username, password, verificationToken) => {
 
     // run sql statement 
     await pool.query(`
-        INSERT INTO Users (email, username, password_hash, verification_token)
+        INSERT INTO users (email, username, password_hash, verification_token)
         VALUES ($1, $2, $3, $4)
     `, [email, username, passwordHash, verificationToken]);
 
@@ -19,7 +19,7 @@ const addUser = async (email, username, password, verificationToken) => {
 const isEmailUnique = async (email) => {
     // run sql statement
     const result = await pool.query(
-        `SELECT id FROM Users WHERE email = $1`, 
+        `SELECT id FROM users WHERE email = $1`, 
         [email]
     );
 
@@ -33,7 +33,7 @@ const isEmailUnique = async (email) => {
 const isUsernameUnique = async (username) => {
     // run sql statement
     const result = await pool.query(
-        "SELECT id FROM Users WHERE username = $1",
+        "SELECT id FROM users WHERE username = $1",
         [username]
     );
 
@@ -58,7 +58,7 @@ const verifyUser = async (token) => {
 // search db for a token match
 const findUserByVerificationToken = async (token) => {
     const result = await pool.query(
-        `SELECT * FROM Users
+        `SELECT * FROM users
          WHERE verification_token = $1`,
         [token]
     );
@@ -69,7 +69,7 @@ const findUserByVerificationToken = async (token) => {
 // search db for a username match
 const findUserByUsername = async (username) => {
     const result = await pool.query(
-        `SELECT * FROM Users WHERE username = $1`,
+        `SELECT * FROM users WHERE username = $1`,
         [username]
     );
 
@@ -79,7 +79,7 @@ const findUserByUsername = async (username) => {
 // search db for a email match
 const findUserByEmail = async (email) => {
     const result = await pool.query(
-        `SELECT * FROM Users
+        `SELECT * FROM users
          WHERE email = $1`,
         [email]
     );
@@ -91,16 +91,17 @@ const findUserByEmail = async (email) => {
 // verification_token to null
 const verifyUserInDB = async (userId) => {
     await pool.query(`
-            UPDATE Users
-            SET verified = TRUE, verification_token = NULL
-            WHERE id = $1 
+            UPDATE  users
+            SET     verified            = TRUE, 
+                    verification_token  = NULL
+            WHERE   id                  = $1 
         `, [userId]);
 };
 
 // update user's password_token field
 const updatePasswordToken = async (userId, token) => {
     await pool.query(`
-        UPDATE Users
+        UPDATE users
         SET password_token = $1
         WHERE id = $2
     `, [token, userId]
@@ -114,7 +115,7 @@ const updatePassword = async (token, newPassword) => {
 
     // update password
     await pool.query(`
-            UPDATE Users
+            UPDATE users
             SET password_hash = $1, password_token = NULL
             WHERE password_token = $2 
         `, [passwordHash, token]
@@ -124,7 +125,7 @@ const updatePassword = async (token, newPassword) => {
 // find user by password_token
 const findUserByPasswordToken = async (passwordToken) => {
     const result = await pool.query(`
-            SELECT * FROM Users
+            SELECT * FROM users
             WHERE password_token = $1
         `, [passwordToken]
     );
