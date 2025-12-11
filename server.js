@@ -6,7 +6,8 @@ require('dotenv').config();
 
 // import packages
 const express = require('express');
-const authRouter = require('./src/routes/authRoutes.js')
+const authRouter = require('./src/routes/authRoutes.js');
+const genRouter = require('./src/routes/generalRoutes.js');
 const path = require('path');
 const session = require('express-session');
 
@@ -33,8 +34,10 @@ app.use(session({
 // files inside our html
 app.use(express.static(path.join(__dirname, 'public')));
 
-// use auth routes
+// use auth and gen routes
 app.use('/', authRouter);
+app.use('/', genRouter);
+
 
 // start server
 const PORT = process.env.PORT || 3000;

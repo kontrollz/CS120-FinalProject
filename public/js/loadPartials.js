@@ -8,7 +8,7 @@ async function loadPartial(id, file) {
     if (!element) return;
     
     // fetch from components directory
-    const response = await fetch(`components/${file}`);
+    const response = await fetch(`/components/${file}`);
     const html = await response.text();
 
     // add header/footer html
@@ -18,4 +18,4 @@ async function loadPartial(id, file) {
 
 // call function for both header and footer
 // loadPartial('header', 'header.html');
-// loadPartial('footer', 'footer.html');
+loadPartial('footer', 'footer.html');

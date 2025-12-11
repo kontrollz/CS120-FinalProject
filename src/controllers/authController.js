@@ -50,8 +50,12 @@ const userSignup = async (req, res) => {
 
 // send email confirmation link to user's email
 const sendConfirmationEmail = (email, username, token) => {
-
-    const url = `http://localhost:8080/confirm/${token}`
+    let url;
+    if (process.env.NODE_ENV === 'production') {
+        url = `https://starview-494def4e3415.herokuapp.com/confirm/${token}`;
+    } else {
+        url = `http://localhost:8080/confirm/${token}`;
+    }
     const subject = "Starview Email Confirmation";
     const html = `
         <div style="background:#050814;padding:24px;font-family:Arial,Helvetica,sans-serif;">
@@ -245,7 +249,13 @@ const sendPasswordResetEmail = async (req, res) => {
 
 // send email confirmation link to user's email
 const sendPassResetEmail = (email, username, token) => {
-    const url = `http://localhost:8080/reset-password/${token}`
+    let url;
+    if (process.env.NODE_ENV === 'production') {
+        url = `https://starview-494def4e3415.herokuapp.com/reset-password/${token}`;
+    } else {
+        url = `http://localhost:8080/reset-password/${token}`;
+    }
+
     const subject = "Starview Password Reset";
     const html = `
             <div style="background:#050814;padding:24px;font-family:Arial,Helvetica,sans-serif;">
