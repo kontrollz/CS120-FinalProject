@@ -53,8 +53,41 @@ const sendConfirmationEmail = (email, username, token) => {
 
     const url = `http://localhost:8080/confirm/${token}`
     const subject = "Starview Email Confirmation";
-    const html = `<h1> Hello, ${username}!</h1>
-                  <p> Click <a href=${url}>here</a> to confirm your email.</p>`
+    const html = `
+        <div style="background:#050814;padding:24px;font-family:Arial,Helvetica,sans-serif;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:auto;background:#0d1429;border-radius:12px;border:1px solid #1c253d;padding:24px;">
+            <tr>
+            <td style="text-align:center;color:#f5f7ff;">
+                <h1 style="margin:0 0 12px 0;font-size:24px;color:#f5f7ff;">Hello, ${username}!</h1>
+
+                <p style="color:#a3acc7;font-size:16px;line-height:22px;margin-bottom:20px;">
+                Thank you for signing up for <strong style="color:#4f8bff;">Starview</strong>.<br>
+                Click the button below to confirm your email:
+                </p>
+
+                <a href="${url}"
+                style="
+                    display:inline-block;
+                    background:#4f8bff;
+                    color:white;
+                    padding:12px 24px;
+                    font-size:16px;
+                    border-radius:8px;
+                    text-decoration:none;
+                    margin-top:12px;
+                ">
+                Confirm Email
+                </a>
+
+                <p style="color:#a3acc7;font-size:14px;margin-top:20px;">
+                If the button doesn't work, copy and paste this link into your browser:<br>
+                <span style="color:#4f8bff;">${url}</span>
+                </p>
+            </td>
+            </tr>
+        </table>
+        </div>
+        `;
 
     // create email options object 
     const mailOptions = emailUtils.createMailOptions(email, subject, html);
@@ -214,8 +247,45 @@ const sendPasswordResetEmail = async (req, res) => {
 const sendPassResetEmail = (email, username, token) => {
     const url = `http://localhost:8080/reset-password/${token}`
     const subject = "Starview Password Reset";
-    const html = `<h1> Hello, ${username}!</h1>
-                  <p> Click <a href=${url}>here</a> to reset your password.</p>`
+    const html = `
+            <div style="background:#050814;padding:24px;font-family:Arial,Helvetica,sans-serif;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:auto;background:#0d1429;border-radius:12px;border:1px solid #1c253d;padding:24px;">
+                <tr>
+                <td style="text-align:center;color:#f5f7ff;">
+                    <h1 style="margin:0 0 12px 0;font-size:24px;color:#f5f7ff;">Hello, ${username}!</h1>
+
+                    <p style="color:#a3acc7;font-size:16px;line-height:22px;margin-bottom:20px;">
+                    A request was made to reset your Starview password.<br>
+                    Click the button below to continue:
+                    </p>
+
+                    <a href="${url}"
+                    style="
+                        display:inline-block;
+                        background:#4f8bff;
+                        color:white;
+                        padding:12px 24px;
+                        font-size:16px;
+                        border-radius:8px;
+                        text-decoration:none;
+                        margin-top:12px;
+                    ">
+                    Reset Password
+                    </a>
+
+                    <p style="color:#a3acc7;font-size:14px;margin-top:20px;">
+                    If you didn’t request a password reset, you can safely ignore this email.
+                    </p>
+
+                    <p style="color:#a3acc7;font-size:14px;margin-top:12px;">
+                    Link (if needed):<br>
+                    <span style="color:#4f8bff;">${url}</span>
+                    </p>
+                </td>
+                </tr>
+            </table>
+            </div>
+            `;
 
     // create email options object
     const mailOptions = emailUtils.createMailOptions(email, subject, html);
