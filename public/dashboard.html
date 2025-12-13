@@ -1,9 +1,14 @@
-<!-- dashboard.html -->
+<!-- dashboard.html - UPDATED 1213 - 2 -->
 <!DOCTYPE html>
 <html>
   <head>
     <title>Dashboard – Starview</title>
     <link rel="stylesheet" href="/css/styles.css" />
+    <style type = 'text/css'>
+    .location_method{
+      border: 1px #000000;
+    } 
+    </style>
   </head>
   <body>
     <div class="page">
@@ -26,6 +31,20 @@
           <div class="dashboard-grid">
             <section>
               <h2>Location</h2>
+              <div class = "location_method">
+                <form id = "geoloc">
+                  <button type = 'submit'>Get Forecast for Current Location</button>
+                </form>
+              </div>
+              <div class = "location_method">
+              <form id = "nomin">
+                <label for="address">Enter Address or City, State/Province, Country:</label>
+                <input type = 'text' name = 'addrtext'></input>
+                <button type = 'submit'>Get Forecast</input>
+                </form>
+              </form>
+            </div>
+            <div class = "location_method">
               <form id="astro-form">
                 <div class="form-row">
                   <label for="lat">Latitude</label>
@@ -52,6 +71,7 @@
 
                 <button type="submit">Get Forecast</button>
               </form>
+              </div>
 
               <p id="astro-message" class="message"></p>
             </section>
@@ -92,8 +112,62 @@
     <script>
       const astroForm = document.getElementById("astro-form");
       const msg = document.getElementById("astro-message");
+
+    /// new functions for nominatim
+    async function get_data(str) {
+    // fetch api in backend instead
+    let response = await fetch(`/dashboard/api?str=${str}`);
+
+    // convert response to json
+    let data = await response.json();
+    if (!data.success) {
+        alert(data.message);
+        return;
+      }
+
+    // get json data
+    let addrData = data.jsonData;
+    let lat = addrData.lat;
+    let lon = addrData.lon;
+
+    console.log(lat);
+
+    // get request with lat and lon, john's page will collect query
+    window.location.href = `/forecast?lat=${lat}&lon=${lon}`;
+    }
+
+    nomin.addEventListener("submit", (e) => {
+      e.preventDefault();
       
-      astroForm.addEventListener("submit", (e) => {
+      // get form data
+      const formData = new FormData(nomin);
+      const querytext = formData.get("addrtext");
+      const str = querytext.replace(/ /g, '+');
+
+    get_data(str);
+
+    });
+
+  geoloc.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+
+        window.location.href = `/forecast?lat=${lat}&lon=${lon}`;
+    });
+
+    } else {
+      alert("Sorry, current location not available.");
+}
+
+  });
+
+    /// end new functions
+
+    astroForm.addEventListener("submit", (e) => {
         e.preventDefault();
         
         // get form data
@@ -114,6 +188,7 @@
 
 
       });
+
 
       // no matter what, we're passing a lat/lon to john's page
       // we'll use the session to figure out what to display to the user

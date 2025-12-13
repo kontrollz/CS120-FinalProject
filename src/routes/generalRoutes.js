@@ -1,3 +1,5 @@
+// updated 1213
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -15,6 +17,8 @@ router.get('/forecast', (req, res) => {
 });
 
 router.get('/forecast/api', genController.fetchAPI);
+
+router.get('/dashboard/api', genController.fetchNom);
 
 // dashboard, will prob update this to what John makes
 router.get('/dashboard', (req, res) => {
