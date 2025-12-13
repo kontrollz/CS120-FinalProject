@@ -1,3 +1,4 @@
+// updated 1213
 const fetchAPI = async (req, res) => {
     try {
         const {lat, lon} = req.query;
